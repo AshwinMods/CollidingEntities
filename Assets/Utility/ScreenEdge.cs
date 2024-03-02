@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ScreenEdge : MonoBehaviour
 {
+	[Header("Reference")]
 	[SerializeField] Camera m_Camera;
 	[SerializeField] Transform[] m_Edges;
+
+	[Header("Config")]
 	[SerializeField] float m_Offset;
 
 	private void Start()
