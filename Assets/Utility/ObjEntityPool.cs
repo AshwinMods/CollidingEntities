@@ -26,21 +26,23 @@ public class ObjEntityPool : MonoBehaviour
 
 	public void EnsureObjCount()
 	{
+		if (m_ObjCount <= m_ObjectPool.Count && 
+			m_ObjInUse == m_ObjCount) return;
+
 		if (m_ObjectPool.Capacity < m_ObjCount)
 			m_ObjectPool.Capacity = m_ObjCount;
 
-		var l_DeltaCount = (m_ObjCount - m_ObjectPool.Count);
-		if (l_DeltaCount == 0) return;
+		var l_NewCount = (m_ObjCount - m_ObjectPool.Count);
+		for (; l_NewCount > 0; --l_NewCount)
+			m_ObjectPool.Add(Instantiate(m_EntityPrefab, m_Trans));
 
-		for (; l_DeltaCount > 0; --l_DeltaCount)
-		{
-			var l_Obj = Instantiate(m_EntityPrefab, m_Trans);
-			m_ObjectPool.Add(l_Obj);
-		}
+		var l_DisIdx = m_ObjInUse - 1;
+		for (; l_DisIdx >= m_ObjCount; --l_DisIdx)
+			m_ObjectPool[l_DisIdx].SetActive(false);
 
-		for (int i = (m_ObjCount-l_DeltaCount-1); i >= m_ObjCount; --i)
-		{
-			m_ObjectPool[i].SetActive(false);
-		}
+		for (; m_ObjInUse < m_ObjCount; ++m_ObjInUse)
+			m_ObjectPool[m_ObjInUse].SetActive(true);
+
+		m_ObjInUse = m_ObjCount;
 	}
 }
