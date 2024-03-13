@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ScreenEdge : MonoBehaviour
 {
+	#region Variable Declaration
+	private static ScreenEdge s_Inst;
+
 	[Header("Reference")]
 	[SerializeField] Camera m_Camera;
 	[SerializeField] Transform[] m_Edges;
@@ -11,6 +14,14 @@ public class ScreenEdge : MonoBehaviour
 	[Header("Config")]
 	[SerializeField] float m_Offset;
 
+	#endregion
+
+	public ScreenEdge()
+	{
+		s_Inst = this;
+	}
+
+	#region Unity Callbacks
 	private void Start()
 	{
 		Setup_ScreenEdge();
@@ -19,7 +30,18 @@ public class ScreenEdge : MonoBehaviour
 	{
 		Setup_ScreenEdge();
 	}
+	#endregion
 
+	#region Public Functions
+	public static void Setup_ScreenEdge(float a_Size, float a_Offset)
+	{
+		s_Inst.m_Camera.orthographicSize = a_Size;
+		s_Inst.m_Offset = a_Offset;
+		s_Inst.Setup_ScreenEdge();
+	}
+	#endregion
+
+	#region Public Functions
 	private void Setup_ScreenEdge()
 	{
 		var l_Size = m_Camera.orthographicSize;
@@ -39,4 +61,5 @@ public class ScreenEdge : MonoBehaviour
 		m_Edges[2].position = Vector3.left * l_Sides;
 		m_Edges[3].position = Vector3.right * l_Sides;
 	}
+	#endregion
 }
