@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class ScreenEdge : MonoBehaviour
@@ -12,8 +13,14 @@ public class ScreenEdge : MonoBehaviour
 	[SerializeField] Transform[] m_Edges;
 
 	[Header("Config")]
+	[SerializeField] float m_Size;
 	[SerializeField] float m_Offset;
 
+	public static float Size 
+	{
+		get => s_Inst.m_Size;
+		set => Setup_ScreenEdge(value, s_Inst.m_Offset);
+	}
 	#endregion
 
 	public ScreenEdge()
@@ -24,24 +31,22 @@ public class ScreenEdge : MonoBehaviour
 	#region Unity Callbacks
 	private void Start()
 	{
-		Setup_ScreenEdge();
+		//Setup_ScreenEdge(m_Size, m_Offset);
 	}
 	private void OnValidate()
 	{
-		Setup_ScreenEdge();
+		//Setup_ScreenEdge();
 	}
 	#endregion
 
 	#region Public Functions
 	public static void Setup_ScreenEdge(float a_Size, float a_Offset)
 	{
+		s_Inst.m_Size = a_Size;
 		s_Inst.m_Camera.orthographicSize = a_Size;
 		s_Inst.m_Offset = a_Offset;
 		s_Inst.Setup_ScreenEdge();
 	}
-	#endregion
-
-	#region Public Functions
 	private void Setup_ScreenEdge()
 	{
 		var l_Size = m_Camera.orthographicSize;

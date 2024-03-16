@@ -11,14 +11,14 @@ public class UISlider : MonoBehaviour
 	[Space]
 	[SerializeField] Text m_Value;
 	[SerializeField] string m_ValueFormat;
-	[SerializeField] float m_InitValue;
+
+	public Slider Slider => m_Slider;
 	#endregion
 
 	#region Unity Callbacks
-	private void Start()
+	private void Awake()
 	{
 		m_Slider.onValueChanged.AddListener(OnValueChange);
-		m_Slider.value = m_InitValue;
 	}
 	#endregion
 
