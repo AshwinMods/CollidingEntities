@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 	public static bool Simulation = true;
 	public static bool DrawInstanced = false;
+	public static bool DrawIndirect = false;
 	public static bool SimOnMath = false;
 	public static bool SimOnCompute = false;
 
@@ -39,7 +40,13 @@ public class GameManager : MonoBehaviour
 	}
 	public void UseInstancing(bool a_Instanced)
 	{
+		if (a_Instanced) DrawIndirect = false;
 		DrawInstanced = a_Instanced;
+	}
+	public void UseIndirect(bool a_Indirect)
+	{
+		if (a_Indirect) DrawInstanced = false;
+		DrawIndirect = a_Indirect;
 	}
 	public void UseMath(bool a_Math)
 	{
